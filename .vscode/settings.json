@@ -1,0 +1,8 @@
+{
+    "markdown-todo.sortByCount": false,
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#102C5E",
+        "titleBar.activeBackground": "#163D83",
+        "titleBar.activeForeground": "#FAFBFE"
+    }
+}

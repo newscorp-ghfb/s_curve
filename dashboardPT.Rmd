@@ -1,0 +1,236 @@
+---
+title: "Candidate Analysis"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+    theme: spacelab    
+---
+
+```{r setup, include=TRUE}
+library(data.table)
+library(dplyr)
+library(DT)
+library(flexdashboard)
+library(formattable)
+library(pdftools)
+library(plotly)
+library(qdap) 
+library(qdapDictionaries) 
+library(qdapRegex) 
+library(qdapTools)
+library(quanteda)
+library(treemap)
+
+x<-data.table(load("candidates.RData"))
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(syllable, readability)
+
+
+```
+
+Summary {data-navmenu="Readability"}
+=====================================
+
+Row {}
+-----------------------------------------------------------------------
+### Applicants
+
+```{r echo=FALSE, include=TRUE, Applicants}
+tbl_candidate<-datatable((candidate), options = list(
+  searching = FALSE,
+  paging = FALSE,
+  lengthMenu = c(5, 10, 15, 20)
+))
+tbl_candidate
+```
+
+Score {data-navmenu="Readability"}
+=====================================
+
+Row {}
+-----------------------------------------------------------------------
+
+### Applicant Readability & Grade Level
+
+```{r  width=700, echo=FALSE, Applicant-Readability-Grade-Level}
+plot(candidate)
+```
+
+Formality {data-navmenu="Readability"}
+=====================================  
+
+Column {}
+-------------------------------------
+    
+### Formality
+    
+```{r echo=FALSE, formality}
+ plot(formality)
+```
+
+ARI {data-navmenu="Readability"}
+=====================================  
+    
+Row {data-height=25}
+-------------------------------------
+
+### About Automated Readability Index
+
+The Automated Readability Index (ARI) is a readability test designed to assess the understandability of a text. Like other popular readability formulas, the ARI formula outputs a number which approximates the grade level needed to comprehend the text. For example, if the ARI outputs the number 10, this equates to a high school student, ages 15-16 years old; a number 3 means students in 3rd grade (ages 8-9 yrs. old) should be able to comprehend the text. 
+
+Column {}
+-------------------------------------
+
+### Automated Readability Index
+    
+```{r echo=FALSE, Automated-Readability-Index}
+plot(ari)
+```
+
+Coleman Liau {data-navmenu="Readability"}
+=====================================
+
+Row {data-height=25}
+-------------------------------------
+
+### About Coleman Liau
+
+The majority of classic readability measures such as Flesch-Kincaid and Gunning Fog involve counting the number of syllables per word and per sentence. Yet, a distinctive feature of the Coleman-Liau Index is that the formula does not involve any counting of syllables.
+
+By basing calculations on the number of letters in a word and number of words in a sentence, readability scores measured by Coleman-Liau Index may be seen as more accurate than those measured by formula that relies on syllable counting.
+
+Row
+-----------------------------------------------------------------------
+
+### Coleman Liau
+
+```{r echo=FALSE, coleman-liau}
+cl <- readRDS("cl.rds")
+plot(cl)
+```
+
+Linsear Write {data-navmenu="Readability"}
+=====================================
+
+Row {data-height=25}
+-------------------------------------
+
+### About Linsear Write
+
+It is one of many such readability metrics, but is specifically designed to calculate the United States grade level of a text sample based on sentence length and the number of words used that have three or more syllables.
+
+Row {}
+-----------------------------------------------------------------------
+
+### Linsear Write
+
+```{r echo=FALSE, Linsear-Write}
+ plot(scores(lw))
+```
+
+
+Charts {data-navmenu="College Detail"}  {.hidden}
+=================================================     
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Cost of Attendance-Graduate Resident
+
+```{r echo=FALSE, COA-Grad-Resident2}
+
+```
+
+### Cost of Attendance-Graduate Non Resident
+
+```{r}
+
+```
+
+Tables {data-navmenu="College Detail"}  {.hidden}
+=================================================    
+
+Row {data-width=450}
+-------------------------------------
+    
+### Top 5 Candidates
+
+```{r echo=FALSE, Top-10-Candidates}
+
+
+```
+    
+### Bottom 5 Candidates
+
+```{r echo=FALSE, Bottom-10-Institutions}
+
+```
+
+Row
+-------------------------------------
+    
+### Institutional Ranking
+    
+```{r}
+
+```
+
+Page 1 {data-navmenu="Fin Aid Awd"}  {.hidden}
+=====================================    
+
+Row
+-------------------------------------
+    
+### Financial Aid Award-Undergraduate Resident
+
+```{r echo=FALSE, Fin-Aid-Awd-Undergrad-Resident}
+
+```
+    
+### Financial Aid Award Non Resident
+
+```{r echo=FALSE, Fin-Aid-Awd-NonResident}
+
+```
+
+Column
+-------------------------------------
+    
+### Financial Aid Award
+    
+```{r}
+
+```
+
+
+
+
+
+Page 2 {data-navmenu="Fin Aid Awd"}  {.hidden}
+=====================================    
+
+Column 
+-------------------------------------
+    
+### Chart 1
+    
+```{r}
+
+```
+   
+Column {.tabset}
+-------------------------------------
+   
+### Chart 2
+
+```{r echo=FALSE, Fin-Aid-Awd2-Undergrad-Resident}
+
+```   
+ 
+### Chart 3
+    
+```{r echo=FALSE, Fin-Aid-Awd2-NonResident}
+
+```

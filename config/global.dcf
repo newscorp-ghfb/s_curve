@@ -1,0 +1,36 @@
+as_factors: FALSE
+attach_internal_libraries: FALSE
+cache_loading: FALSE
+cache_loaded_data: FALSE
+data_loading: TRUE
+data_loading_header: TRUE
+data_ignore:
+load_libraries: TRUE
+libraries:  ARTofR, archivist, arsenal, assertthat, beepr, bookdownplus, blogsnip,
+            bracketify, cheatsheet, checkpoint, circlize, clock, collapse, 
+            compare, compareDF, cronR, d3heatmap, daff, DALEX, data.table,
+            cheatsheet, data.tree, data.validator, DataEditR, DataExplorer,
+            dataMeta, datamodelr, datapasta darklyplot, deepdep, devtools,
+            DiagrammeR, diffobj, dlookr, dm, plyr, downlit, dplyr, dtplyr,DT,
+            dygraphs, ezknitr, flexdashboard, flextable, flow, formatR,
+            formattable, futile.logger, fuzzyjoin, ggblanket, ggdogs, ggplot2,
+            ggstatsplot, ggthemr, gluedown, grkstyle, gt, grid, headliner, here, 
+            highcharter, inexact, inspectdf, janitor, knitr, lintr, lobstr, 
+            logger, loud, lubridate, magrittr, Microsoft365R, modelsummary,
+            openxlsx, orca, pacman, packagefinder, pak, pasteAsComment, patchwork,
+            pdftools, PerformanceAnalytics, pivottabler, plotluck, plotly, ppsr,
+            processR, ProjectTemplate, quantmod, raincloudplots, rCharts, readr,
+            readxl, ReDaMoR, reprex, reshape2, rio, rmarkdown, raster, rstudioapi, 
+            rstudio.prefs, rtables, RVerbalExpressions, shiny, shinyAce,
+            shinydashboard, shinyWidgets, skimr, SixSigma, SmartEDA, snakecase,
+            splot, stringr, styler, summarytools, taskscheduleR, tidytable, tidyverse,
+            timetk, treemap, tryCatchLog, TTR, utils, validate, visdat, xfun,
+            xlsx, xtable, yaml, zipcodeR, zoo
+logging: TRUE
+logging_level: INFO
+munging: TRUE
+recursive_loading: TRUE
+sticky_variables: NONE
+version: 0.9.2
+tables_type: data_table
+underscore_variables: TRUE

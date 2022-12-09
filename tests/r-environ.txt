@@ -1,0 +1,3 @@
+usSys.setenv("plotly_username" = "UTexas80")
+Sys.setenv("plotly_api_key"  = "wMM5sfP2Sxb7qiqdkAIB")
+Sys.setenv("GITHUB_PAT"      = "0cc94c193b5b472ac492078994026247c4ab7826")

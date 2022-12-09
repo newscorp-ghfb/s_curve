@@ -1,0 +1,2 @@
+Sys.setenv("plotly_username" = "UTexas80")
+Sys.setenv("plotly_api_key" = "wMM5sfP2Sxb7qiqdkAIB")
