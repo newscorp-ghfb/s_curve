@@ -1,0 +1,50 @@
+[
+  {
+    "name": "title",
+    "description": "The navbar title. Uses the project title if none is specified."
+  },
+  {
+    "name": "logo",
+    "description": "Path to a logo image that will be displayed to the left of the title."
+  },
+  {
+    "name": "logo-alt",
+    "description": "Alternate text for the logo image."
+  },
+  {
+    "name": "logo-href",
+    "description": "Target href from navbar logo / title. By default, the logo and title link to the root page of the site (/index.html)."
+  },
+  {
+    "name": "background",
+    "description": "The navbar's background color (named or hex color)."
+  },
+  {
+    "name": "foreground",
+    "description": "The navbar's foreground color (named or hex color)."
+  },
+  {
+    "name": "search",
+    "description": "Include a search box in the navbar."
+  },
+  {
+    "name": "pinned",
+    "description": "Always show the navbar (keeping it pinned)."
+  },
+  {
+    "name": "collapse",
+    "description": "Collapse the navbar into a menu when the display becomes narrow."
+  },
+  {
+    "name": "collapse-below",
+    "description": "The responsive breakpoint below which the navbar will collapse into a menu (`sm`, `md`, `lg` (default), `xl`, `xxl`)."
+  },
+  {
+    "name": "left",
+    "description": "List of items for the left side of the navbar (see [Nav Items](#nav-items))"
+  },
+  {
+    "name": "right",
+    "description": "List of items for the left side of the navbar (see [Nav Items](#nav-items))"
+  }
+]

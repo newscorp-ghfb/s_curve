@@ -1,0 +1,7 @@
+---
+title: "Project Options"
+project-type: default
+project-output-dir: _output
+---
+
+{{< include _options.md >}}

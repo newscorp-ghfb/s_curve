@@ -1,0 +1,26 @@
+[
+  {
+    "name": "left",
+    "description": "Footer left content"
+  },
+  {
+    "name": "right",
+    "description": "Footer right content"
+  },
+  {
+    "name": "center",
+    "description": "Footer center content"
+  },
+  {
+    "name": "border",
+    "description": "Footer border (`true`, `false`, or a border color)"
+  },
+  {
+    "name": "background",
+    "description": "Footer background color"
+  },
+  {
+    "name": "foreground",
+    "description": "Footer foreground color"
+  }
+]

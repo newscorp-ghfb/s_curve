@@ -1,0 +1,42 @@
+[
+  {
+    "name": "title",
+    "description": ""
+  },
+  {
+    "name": "type",
+    "description": "Project type (`default`, `website`, or `book`)"
+  },
+  {
+    "name": "render",
+    "description": "Files to render (defaults to all files)"
+  },
+  {
+    "name": "execute-dir",
+    "description": "Control the working directory for computations. \n\n- `file`: Use the directory of the file that is currently executing.\n- `project`: Use the root directory of the project.\n"
+  },
+  {
+    "name": "output-dir",
+    "description": "Output directory"
+  },
+  {
+    "name": "lib-dir",
+    "description": "HTML library (JS/CSS/etc.) directory"
+  },
+  {
+    "name": "resources",
+    "description": "Additional file resources to be copied to output directory"
+  },
+  {
+    "name": "preview",
+    "description": "Options for `quarto preview` (see [Preview](#preview))"
+  },
+  {
+    "name": "pre-render",
+    "description": "Scripts to run as a pre-render step"
+  },
+  {
+    "name": "post-render",
+    "description": "Scripts to run as a post-render step"
+  }
+]

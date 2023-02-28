@@ -1,0 +1,17 @@
+---
+title: "Website Options"
+project-type: website
+project-type-upper: Website
+project-output-dir: _site
+---
+
+All available options for `website` projects are documented below. See [Creating a Website](../../websites/) for an in-depth guide to creating websites with Quarto.
+
+{{< include _websites-pre.md >}}
+
+
+::: {#table-website}
+:::
+
+{{< include _websites.md >}}
+
