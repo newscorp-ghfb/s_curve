@@ -1,0 +1,78 @@
+---
+title: Page Layout
+format: html
+page-layout: full
+---
+
+## Overview
+
+By default Quarto HTML documents display content centered at a width optimized for readability (typically from 600px to 900px wide). While this is a sound default layout for traditional articles, for other types of pages (e.g. landing or index pages) you may want to use other layouts.
+
+The `page-layout` option can be use to control the layout used. For example:
+
+``` yaml
+format: 
+  html:
+    page-layout: full
+```
+
+The various `page-layout` options are described below.
+
+## Article
+
+```
+page-layout: article
+```
+
+Article layout provides a content area with a page based grid layout that provides margins, areas for sidebars, and a reading width optimized body region. The precise size of the document regions will vary slightly depending upon the sidebar (if present) and the presence or absence of margin or complex layout elements. To learn more, checkout the guide to [Article Layout](../authoring/article-layout.qmd).
+
+## Full
+
+```
+page-layout: full
+```
+
+Full layout uses the article grid system, but automatically expands the content area to use the sidebar and margin region if no content is placed within those regions. This is useful for layouts that don't need to be constrained to reading width and that will benefit from additional horizontal space (e.g. landing or index pages)
+
+## Custom
+
+```
+page-layout: custom
+```
+
+Custom layout provides a simple HTML content container with no default grid system, padding, or margins. The default HTML framing provided will look this this:
+
+``` html
+<div class="page-layout-custom">
+  <!-- body content here -->
+</div>
+```
+
+In websites, custom layouts do not include navigation sidebars but do include the site navbar and footer.
+
+#### CSS Grid
+
+If you are using `page-layout: custom`, you'll likely want to utilize the [Bootstrap CSS Grid](https://getbootstrap.com/docs/5.1/layout/css-grid/) layout system (which is available by default in Quarto documents) for creating more sophisticated layouts.
+
+For example, here's a simple 2-column grid:
+
+```markdown
+::: {.grid}
+
+::: {.g-col-4}
+This column takes 1/3 of the page
+:::
+
+::: {.g-col-8}
+This column takes 2/3 of the page
+:::
+
+:::
+```
+
+Bootstrap's CSS Grid system includes facilities for responsiveness, wrapping, nesting, and fine grained customization of column behavior. 
+
+Note that this isn't the traditional Bootstrap grid used in older versions of Bootstrap -- rather, it's a brand new layout system introduced in Bootstrap 5.1 based on the CSS Grid standard. Quarto uses this newer system because it has more sophisticated layout capabilities akin to what LaTeX offers for print documents. 
+
+See the [Bootstrap CSS Grid](https://getbootstrap.com/docs/5.1/layout/css-grid/) documentation for additionals details.
+

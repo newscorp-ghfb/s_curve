@@ -1,0 +1,73 @@
+---
+title: Article Grid Customization
+---
+
+{{< include _pre-release-feature.qmd >}}
+
+### Background
+
+Quarto HTML documents are arranged in a structure composed of a sidebar, the body of the document, the margin of the document, and the margins between these elements (gutters). This is illustrated below:
+
+![](images/grid.png)
+
+Quarto uses CSS Grid to define the position and size of each of these elements, computing different definitions for the variety of layout types (for example docked vs floating), responsive sizes (large screen vs mobile size), and page contents (margin vs no margin content). These various definitions are computed by using a base maximum width for each of these elements. These base maximum widths are scaled to create minimum widths and variations of the grid.
+
+In Quarto 1.2, the baseline widths of each of these elements was predefined in Quarto and wasn't customizable without replacing the entire CSS grid system used by Quarto. The elements used the following base sizes when calculating the layout of a page:
+
+::: {style="width: 60%; margin: auto;"}
+| Element                             | Size  |
+|-------------------------------------|-------|
+| `sidebar-width`{spellcheck="false"} | 250px |
+| `body-width`{spellcheck="false"}    | 800px |
+| `margin-width`{spellcheck="false"}  | 250px |
+| `gutter-width`{spellcheck="false"}  | 1.5em |
+:::
+
+### Customization
+
+Starting in Quarto v1.3, you may control the width of the sidebar, body, margin, and gutter of HTML page layouts using YAML or SCSS variables. The width(s) that you provide will specify the maximum width for the element and will be used as a baseline value when computing minimum sizes for the elements. In addition, Quarto will use the width(s) that you provide to derive all the various widths for the differing grid styles and responsive sizes (by scaling the maximum value that you provide).
+
+To set these options in YAML, you may use:
+
+``` yml
+format:
+  html: 
+    grid:
+      sidebar-width: 300px
+      body-width: 900px
+      margin-width: 300px
+      gutter-width: 1.5rem
+```
+
+Similarly, in a custom theme `scss` file, you may set variables like:
+
+``` css
+// The left hand sidebar
+$grid-sidebar-width: 300px !default;
+
+// The main body
+$grid-body-width: 900px !default;
+
+// The right hand margin bar
+$grid-margin-width: 300px !default;
+
+// The gutter that appears between the above columns
+$grid-column-gutter-width: 1.5rem !default;
+```
+
+`sidebar-width`, `body-width`, and `margin-width` should be specified in pixels (`px`) as the values will be used when computing other sizes. Requiring pixel sizing is a limitation of our approach to the Quarto's layout, but also typically makes sense since the overall document width is usually tied to the browser size and responsive breakpoints rather than font size or other relative measures.
+
+`gutter-width` may be specified in pixels or other units such as `em` or `rem` which are responsive to the document font size.
+
+### Example
+
+For example, to use the Quarto default sizes for the body and margin, but to create a wider sidebar, you could write:
+
+``` yml
+format:
+  html: 
+    grid:
+      sidebar-width: 325px
+```
+
+Which would make the sidebar 75 pixels wider than the default Quarto layout. This change would affect all the various grid types (both floating and docked).
