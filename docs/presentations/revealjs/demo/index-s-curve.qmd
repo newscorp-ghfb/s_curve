@@ -29,6 +29,7 @@ library(changepoints)
 library(data.table)
 library(devtools)
 library(DT)
+library(dplyr)
 library(easystats)
 library(ezknitr)
 library(farver)
@@ -57,6 +58,7 @@ library(ggtext)
 library(ggthemr)
 library(gifski)
 library(heatmaply)
+library(here)
 library(highcharter)
 library(Hmisc)
 library(hrbrthemes)
@@ -116,7 +118,7 @@ ls_theme_ian    <- setDT(data.table(readRDS(here::here("dashboard/rds/", "ls_the
 
 This presentation will show you outcomes of an S-Curve analysis, including:
 
--   Visual representation of MS% and MER – two key metrics for growth
+-   Visual representation of MS% and MER -- two key metrics for growth
 -   Data driven input into strategy
 -   Links increasing MS% to a financial benefit
 -   Highlights risk of over-saturation
@@ -127,6 +129,31 @@ This presentation will show you outcomes of an S-Curve analysis, including:
 Learn more: [S-Curve](https://tinyurl.com/5a59uum9)
 :::
 
+## What is an S-Curve? {.smaller} 
+
+::: columns
+::: {.column width="62%"}
+#### [[*and how is it used in Network Planning?*]{.underline}]{.smallcaps}
+
+-   [An S-curve is often used in business planning to illustrate the life cycle of a product, service, or industry. It shows the progress of a product, service or industry from introduction to maturity and eventually decline. ]{style="font-size: 11pt; font-weight: bold"}
+
+-  [The S-curve starts with a slow growth phase during the introduction stage, where sales are low due to lack of consumer awareness and limited distribution channels. Then, the growth rate accelerates as the product or service becomes more widely known and accepted in the market. This is called the rapid growth phase. ]{style="font-size: 11pt; font-weight: bold"}
+-  [As the market becomes saturated, growth slows down, and the curve levels off in the maturity stage. During this phase, sales are still high, but growth has slowed down. Eventually, the curve begins to decline as the product or service becomes outdated, or newer and better products or services are introduced to the market. ]{style="font-size: 11pt; font-weight: bold"}
+-  [Overall, the S-curve is a useful tool for businesses to assess the performance of their products or services and plan for their future growth and success.]{style="font-size: 11pt; font-weight: bold"}
+:::
+
+::: {.column width="8%"}
+:::
+
+::: {.column width="30%"}
+![](anim/indy_gas_visit.gif){.absolute .fragment top="125" right="30" width="425"}
+:::
+:::
+
+::: footer
+Learn more: [S-Curve](https://tinyurl.com/38t27vyh)
+:::
+
 ## Indianapolis MSA {.smaller}
 
 MSA:
@@ -134,6 +161,7 @@ MSA:
 ::: columns
 ::: {.column width="52%"}
 #### Definition
+
 A Metropolitan Statistical Area (MSA) is a federal classification used to identify one or more counties or equivalent areas with a large population core of at least 50,000 people and surrounding communities that are economically and socially integrated with that core. Marion County and its contiguous counties fit this definition, although the counties included in the Indianapolis MSA have changed over time. Each MSA is identified by the name of its central city and state.
 :::
 
@@ -170,9 +198,9 @@ Learn more: [Absolute Position](https://quarto.org/docs/presentations/revealjs/a
 
 ![](images/202301_indy_store.png){.absolute top="170" left="30" width="525" height="500"}
 
-### Sequence {auto-animate="true"}
+### Time Machine {auto-animate="true"}
 
-![](anim/indy_store_visit.gif)
+![](anim/indy_gas_visit.gif)
 
 ### Sectors {auto-animate="true"}
 
@@ -187,6 +215,7 @@ names(dt)[3:7] <- c("Date", "Name", "outlets", "mkt_share", "outlet_share")
 # ------------------------------------------------------------------------------
 dt_data <- dt[msa == 5, c(3, 17, 5:9)]
 dt_data <- dt_data[, price_diff := currency(price_diff, digits = 2L, symbol = "¢")]
+dt_data <- dt_data[, Date := as.Date(Date, '%m/%d/%Y')]
 # ------------------------------------------------------------------------------
 DT::datatable(dt_data,
   rownames = FALSE,
@@ -202,7 +231,6 @@ DT::datatable(dt_data,
   )
 ) %>%
   formatCurrency("price_diff", currency = "¢", before = FALSE) %>%  
-  formatDate("Date") %>%
   formatPercentage(c("mkt_share", "outlet_share"), 2)
 ```
 :::
@@ -211,7 +239,7 @@ DT::datatable(dt_data,
 Learn more: [Tabsets](https://quarto.org/docs/presentations/revealjs/#tabsets)
 :::
 
-## Indianapolis Data {.smaller}
+## Indianapolis {.smaller}
 
 S-Curve Median Values:
 
@@ -228,14 +256,18 @@ The data was extracted from proprietory OPIS Market Share data, and comprises fu
 ::: {.column width="62%"}
 ```{r}
 # ------------------------------------------------------------------------------
-dt_cube <- setDT(dt[,c(3,5:9,14)])
-dt_cube <- data.table::cube(dt[,c(3,5:9,14)],
-                 j = lapply(.SD, mean),
+dt_cube <-  setDT(dt[,c(3,5:9,14)])
+dt_cube <-  data.table::setorder(
+              data.table::cube(dt[,c(3,5:9,14)],
+                 j = lapply(.SD, median),
                  by = c("Date","brand_type_name"),
-                 id=TRUE)
+                 id=TRUE),
+            grouping, Date)
+
+dt_cube[, Date := as.Date(Date, '%m/%d/%Y')]
 # knitr::kable(dt_cube)
 # ------------------------------------------------------------------------------
-DT::datatable(dt_cube[grouping == 1 , -c(1,3)],
+DT::datatable(dt_cube[grouping == 0 & brand_type_name == 'store' , -c(1,3)],
   rownames = FALSE,
   extensions = c("Scroller"),
   filter = "top",
@@ -249,8 +281,8 @@ DT::datatable(dt_cube[grouping == 1 , -c(1,3)],
   )
 ) %>%
   formatCurrency("price_diff", currency = "¢", before = FALSE) %>%  
-  formatDate("Date") %>%
-  formatRound(c("mer", "outlets"),2) %>%
+  formatRound(c("outlets"),0) %>%
+  formatRound(c("mer"),2) %>%
   formatPercentage(c("mkt_share", "outlet_share"), 2)
 ```
 :::
@@ -260,6 +292,255 @@ DT::datatable(dt_cube[grouping == 1 , -c(1,3)],
 Learn more: [S-Curve](https://tinyurl.com/5a59uum9)
 :::
 
+## Indianapolis {auto-animate="true"}
+
+![](anim/sector/indy_sector_by_month.gif)
+
+## Indianapolis {auto-animate="true"}
+
+![](anim/indy_gas_visit.gif)
+
+## Indianapolis - MER Outliers
+
+![](images/indy_mer_box.png){.absolute top="170" left="30" width="525" height="500"}
+
+::: footer
+Learn more: [MER Boxplot](https://quarto.org/docs/presentations/revealjs/#executable-code)
+:::
+
+## Indianapolis - Treemap
+
+![](images/indy_sector_treemap.png){.absolute top="110" left="20" width="625" height="590"}
+
+```{r 0.0.2.3-viz-treemap, eval=dt_quadrant}
+# library(d3treeR)
+# 
+# ------------------------------------------------------------------------------
+# dt_data <- data.table::setorder(dt_quadrant[,c(8:11,5,7)], msa, brand, quadrant)
+# dt_data$quadrant <- paste0("s", right(dt_data$quadrant,2))
+# ------------------------------------------------------------------------------
+# p <- treemap(dt_data,
+#              index=c("msa","brand", "quadrant"),
+#              vSize="pct_quad_cnt", title = "Indianapolis Treemap",
+#              type="index",
+#              palette = "Set2",
+#              bg.labels=c("white"),
+#              algorithm = "pivotSize",
+#              sortID = "msa",
+#              align.labels=list(
+#                  c("center", "center"),
+#                  c("right", "bottom")
+#              )
+# )
+# p
+```
+
+::: footer
+Learn more: [Treemap](https://quarto.org/docs/presentations/revealjs/#executable-code)
+:::
+
+
+## Interactive Slides {.smaller transition="slide"}
+
+Include Jupyter widgets and htmlwidgets in your presentations
+
+```{r}
+#| echo: false
+#| fig-height: 5
+library(leaflet)
+leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=174.768, lat=-36.852, popup="The birthplace of R")
+```
+
+::: footer
+Learn more: [Jupyter widgets](https://quarto.org/docs/interactive/widgets/jupyter.html), [htmlwidgets](https://quarto.org/docs/interactive/widgets/htmlwidgets.html)
+:::
+
+
+
+## Indianapolis Outliers
+
+```{r 0.0.2.3-viz-box-mer}
+
+# ------------------------------------------------------------------------------
+dt_indy       <- dt.mkt.share[ msa == 5 & brand_type == 2,]
+# ------------------------------------------------------------------------------
+dt_indy_2016  <- dt_indy[date_start %like% '2016',]
+dt_indy_2017  <- dt_indy[date_start %like% '2017',]
+dt_indy_2018  <- dt_indy[date_start %like% '2018',]
+# ------------------------------------------------------------------------------
+dt_indy_2019  <- dt_indy[date_start %like% '2019',]
+dt_indy_2020  <- dt_indy[date_start %like% '2020',]
+dt_indy_2021  <- dt_indy[date_start %like% '2021',]
+dt_indy_2022  <- dt_indy[date_start %like% '2022',]
+# ------------------------------------------------------------------------------
+plot_ly(type  = "box") %>%
+# ------------------------------------------------------------------------------
+add_boxplot(
+    x         = dt_indy_2016,
+    y         = dt_indy_2016$mer,
+    jitter    = 0.3,
+    pointpos  = -1.8,
+    boxpoints = "all",
+    marker    = list(color = "rgb(7,40,89)"),
+    line      = list(color = "rgb(7,40,89)"),
+    name      = "Indianapolis 2016"
+) %>%
+# ------------------------------------------------------------------------------
+add_boxplot(
+    x         = dt_indy_2017,
+    y         = dt_indy_2017$mer,
+    jitter    = 0.3,
+    pointpos  = -1.8,
+    boxpoints = "all",
+    marker    = list(color = "rgb(7,40,89)"),
+    line      = list(color = "rgb(7,40,89)"),
+    name      = "Indianapolis 2017"
+) %>%
+# ------------------------------------------------------------------------------
+add_boxplot(
+    x         = dt_indy_2018,
+    y         = dt_indy_2018$mer,
+    jitter    = 0.3,
+    pointpos  = -1.8,
+    boxpoints = "all",
+    marker    = list(color = "rgb(7,40,89)"),
+    line      = list(color = "rgb(7,40,89)"),
+    name      = "Indianapolis 2018"
+) %>%
+# ------------------------------------------------------------------------------
+add_boxplot(
+    x         = dt_indy_2019,
+    y         = dt_indy_2019$mer,
+    jitter    = 0.3,
+    pointpos  = -1.8,
+    boxpoints = "all",
+    marker    = list(color = "rgb(7,40,89)"),
+    line      = list(color = "rgb(7,40,89)"),
+    name      = "Indianapolis 2019"
+)  %>%
+# ------------------------------------------------------------------------------
+add_boxplot(
+    x         = dt_indy_2020,
+    y         = dt_indy_2020$mer,
+    jitter    = 0.3,
+    pointpos  = -1.8,
+    boxpoints = "all",
+    marker    = list(color = "rgb(7,40,89)"),
+    line      = list(color = "rgb(7,40,89)"),
+    name      = "Indianapolis 2020"
+) %>%
+# ------------------------------------------------------------------------------
+add_boxplot(
+    x         = dt_indy_2021,
+    y         = dt_indy_2021$mer,
+    jitter    = 0.3,
+    pointpos  = -1.8,
+    boxpoints = "all",
+    marker    = list(color = "rgb(7,40,89)"),
+    line      = list(color = "rgb(7,40,89)"),
+    name      = "Indianapolis 2021"
+) %>%
+# ------------------------------------------------------------------------------
+add_boxplot(
+    x         = dt_indy_2022,
+    y         = dt_indy_2022$mer,
+    jitter    = 0.3,
+    pointpos  = -1.8,
+    boxpoints = "all",
+    marker    = list(color = "rgb(7,40,89)"),
+    line      = list(color = "rgb(7,40,89)"),
+    name      = "Indianapolis 2022"
+)
+# ------------------------------------------------------------------------------
+# ggplot(dt_indy,
+#         aes(date_start, 
+#           mer,
+#           group = date_start)) +   labs(
+#               x = "Date",
+#               y = "MER",
+#               title = "Indianapolis MER",
+#               subtitle = "2016 -2023"
+#               ) + 
+#         geom_boxplot()
+# ------------------------------------------------------------------------------        
+```
+
+
+## Indianapolis - Outliers
+
+![](images/indy_gas_mer.png){.absolute top="170" left="30" width="625" height="600"}
+
+```{r 0.0.2.2-viz-box-mer, eval=dt.mkt.share}
+# dt_indy_2016 <- dt_indy[year(date_start) == 2016,]
+# dt_indy_2017 <- dt_indy[year(date_start) == 2017,]
+# dt_indy_2018 <- dt_indy[year(date_start) == 2018,]
+# # ------------------------------------------------------------------------------
+# dt_indy_2019 <- dt_indy[year(date_start) == 2019,]
+# dt_indy_2020 <- dt_indy[year(date_start) == 2020,]
+# dt_indy_2022 <- dt_indy[year(date_start) == 2022,]
+# # ------------------------------------------------------------------------------
+# plot_ly(type = "box") %>%
+# # ------------------------------------------------------------------------------
+# add_boxplot(
+#     x = dt_indy_2016,
+#     y = dt_indy_2016$mer,
+#     jitter    = 0.3,
+#     pointpos  = -1.8,
+#     boxpoints = "all",
+#     marker      = list(color = "rgb(7,40,89)"),
+#     line        = list(color = "rgb(7,40,89)"),
+#     name        = "Indianapolis 2016"
+# ) %>%
+#     # ------------------------------------------------------------------------------
+# add_boxplot(
+#     x = dt_indy_2019,
+#     y = dt_indy_2019$mer,
+#     jitter    = 0.3,
+#     pointpos  = -1.8,
+#     boxpoints = "all",
+#     marker      = list(color = "rgb(7,40,89)"),
+#     line        = list(color = "rgb(7,40,89)"),
+#     name        = "Indianapolis 2019"
+# )  %>%
+#     # ------------------------------------------------------------------------------
+# add_boxplot(
+#     x = dt_indy_2022,
+#     y = dt_indy_2022$mer,
+#     jitter    = 0.3,
+#     pointpos  = -1.8,
+#     boxpoints = "all",
+#     marker      = list(color = "rgb(7,40,89)"),
+#     line        = list(color = "rgb(7,40,89)"),
+#     name        = "Indianapolis 2022"
+# )
+
+# library(ggplot2)
+# 
+# ------------------------------------------------------------------------------
+# dt_indy <- dt.mkt.share[
+#   msa == 5 &
+#     brand_type == 2,
+# ]
+# ------------------------------------------------------------------------------
+# ggplot(dt_indy,
+#         aes(date_start, 
+#           mer,
+#           group = date_start)) +   labs(
+#               x = "Date",
+#               y = "MER",
+#               title = "Indianapolis MER",
+#               subtitle = "2016 -2023"
+#               ) + 
+#         geom_boxplot()
+```
+
+::: footer
+Learn more: [MER](https://quarto.org/docs/presentations/revealjs/#executable-code)
+:::
+
+
 ## Pretty Code {auto-animate="true"}
 
 -   Over 20 syntax highlighting themes available
@@ -268,7 +549,7 @@ Learn more: [S-Curve](https://tinyurl.com/5a59uum9)
 ``` r
 # Define a server for the Shiny app
 function(input, output) {
-  
+
   # Fill in the spot we created for a plot
   output$phonePlot <- renderPlot({
     # Render a barplot
@@ -279,14 +560,6 @@ function(input, output) {
 ::: footer
 Learn more: [Syntax Highlighting](https://quarto.org/docs/output-formats/html-code.html#highlighting)
 :::
-
-## Indianapolis - Sector Delimination {auto-animate="true"}
-
-![](anim/sector/indy_sector_by_month.gif)
-
-## Indy Visit Count by Store Brand {auto-animate="true"}
-
-![](anim/indy_store_visit.gif)
 
 ## Code Animations {auto-animate="true"}
 
@@ -392,8 +665,6 @@ a_{21}& =b_{21}&
 ::: footer
 Learn more: [LaTeX Equations](https://quarto.org/docs/authoring/markdown-basics.html#equations)
 :::
-
-
 
 ## Incremental Lists
 
@@ -530,7 +801,7 @@ Learn more: [Auto-Animate](https://quarto.org/docs/presentations/revealjs/advanc
 The next few slides will transition using the `slide` transition
 
 | Transition | Description                                                            |
-|------------|------------------------------------------------------------------------|
+|-----------------|-------------------------------------------------------|
 | `none`     | No transition (default, switch instantly)                              |
 | `fade`     | Cross fade                                                             |
 | `slide`    | Slide horizontally                                                     |
