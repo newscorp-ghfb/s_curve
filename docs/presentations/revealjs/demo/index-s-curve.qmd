@@ -129,24 +129,26 @@ This presentation will show you outcomes of an S-Curve analysis, including:
 Learn more: [S-Curve](https://tinyurl.com/5a59uum9)
 :::
 
-## What is an S-Curve? {.smaller} 
+## What is an S-Curve? {.smaller}
 
 ::: columns
-::: {.column width="62%"}
+::: {.column width="52%"}
 #### [[*and how is it used in Network Planning?*]{.underline}]{.smallcaps}
 
--   [An S-curve is often used in business planning to illustrate the life cycle of a product, service, or industry. It shows the progress of a product, service or industry from introduction to maturity and eventually decline. ]{style="font-size: 11pt; font-weight: bold"}
+-   [An S-curve is often used in business planning to illustrate the life cycle of a product, service, or industry. It shows the progress of a product, service or industry from introduction to maturity and eventually decline.]{style="font-size: 11pt; font-weight: bold"}
 
--  [The S-curve starts with a slow growth phase during the introduction stage, where sales are low due to lack of consumer awareness and limited distribution channels. Then, the growth rate accelerates as the product or service becomes more widely known and accepted in the market. This is called the rapid growth phase. ]{style="font-size: 11pt; font-weight: bold"}
--  [As the market becomes saturated, growth slows down, and the curve levels off in the maturity stage. During this phase, sales are still high, but growth has slowed down. Eventually, the curve begins to decline as the product or service becomes outdated, or newer and better products or services are introduced to the market. ]{style="font-size: 11pt; font-weight: bold"}
--  [Overall, the S-curve is a useful tool for businesses to assess the performance of their products or services and plan for their future growth and success.]{style="font-size: 11pt; font-weight: bold"}
+-   [The S-curve starts with a slow growth phase during the introduction stage, where sales are low due to lack of consumer awareness and limited distribution channels. Then, the growth rate accelerates as the product or service becomes more widely known and accepted in the market. This is called the rapid growth phase.]{style="font-size: 11pt; font-weight: bold"}
+
+-   [As the market becomes saturated, growth slows down, and the curve levels off in the maturity stage. During this phase, sales are still high, but growth has slowed down. Eventually, the curve begins to decline as the product or service becomes outdated, or newer and better products or services are introduced to the market.]{style="font-size: 11pt; font-weight: bold"}
+
+-   [Overall, the S-curve is a useful tool for businesses to assess the performance of their products or services and plan for their future growth and success.]{style="font-size: 11pt; font-weight: bold"}
 :::
 
-::: {.column width="8%"}
+::: {.column width="23%"}
 :::
 
-::: {.column width="30%"}
-![](anim/indy_gas_visit.gif){.absolute .fragment top="125" right="30" width="425"}
+::: {.column width="25%"}
+![](anim/indy_gas_visit.gif){.absolute .fragment top="125" right="02" width="510"}
 :::
 :::
 
@@ -339,7 +341,6 @@ Learn more: [MER Boxplot](https://quarto.org/docs/presentations/revealjs/#execut
 Learn more: [Treemap](https://quarto.org/docs/presentations/revealjs/#executable-code)
 :::
 
-
 ## Interactive Slides {.smaller transition="slide"}
 
 Include Jupyter widgets and htmlwidgets in your presentations
@@ -356,8 +357,6 @@ leaflet() %>%
 ::: footer
 Learn more: [Jupyter widgets](https://quarto.org/docs/interactive/widgets/jupyter.html), [htmlwidgets](https://quarto.org/docs/interactive/widgets/htmlwidgets.html)
 :::
-
-
 
 ## Indianapolis Outliers
 
@@ -467,7 +466,6 @@ add_boxplot(
 # ------------------------------------------------------------------------------        
 ```
 
-
 ## Indianapolis - Outliers
 
 ![](images/indy_gas_mer.png){.absolute top="170" left="30" width="625" height="600"}
@@ -539,7 +537,6 @@ add_boxplot(
 ::: footer
 Learn more: [MER](https://quarto.org/docs/presentations/revealjs/#executable-code)
 :::
-
 
 ## Pretty Code {auto-animate="true"}
 
@@ -801,7 +798,7 @@ Learn more: [Auto-Animate](https://quarto.org/docs/presentations/revealjs/advanc
 The next few slides will transition using the `slide` transition
 
 | Transition | Description                                                            |
-|-----------------|-------------------------------------------------------|
+|------------------|------------------------------------------------------|
 | `none`     | No transition (default, switch instantly)                              |
 | `fade`     | Cross fade                                                             |
 | `slide`    | Slide horizontally                                                     |
